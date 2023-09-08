@@ -1,7 +1,15 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Petty.Entities;
 
-public class AppUser
+public class AppUser :IdentityUser<int>
 {
-    public int Id { get; set; }
-    public string UserName { get; set; }
+    public DateOnly DateOfBirth { get; set; }
+    public DateTime Created { get; set; } = DateTime.UtcNow;
+    public DateTime LastActive { get; set; } = DateTime.UtcNow;
+    public string LookingFor { get; set; }
+    public string City { get; set; }
+    public string Country { get; set; }
+
+    public ICollection<AppUserRole> UserRoles { get; set; }
 }
