@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Petty.Entities;
 
-public class AppUser :IdentityUser<int>
+public class AppUser : IdentityUser<int>
 {
     public DateOnly DateOfBirth { get; set; }
     public DateTime Created { get; set; } = DateTime.UtcNow;
