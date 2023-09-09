@@ -1,24 +1,26 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Petty.Data;
 using Petty.Entities;
 using Petty.Extensions;
 using Petty.Helpers;
+using Petty.Interfaces;
+using Petty.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddAutoMapper(typeof(AutoMapperProfiles ).Assembly);
-builder.Services.AddDbContext<DataContext>(opt =>
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration);
 
-builder.Services.AddCors();
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
