@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Petty.Data;
 using Petty.Entities;
 using Petty.Extensions;
+using Petty.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles ).Assembly);
 builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
