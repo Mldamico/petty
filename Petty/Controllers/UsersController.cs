@@ -2,29 +2,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Petty.Data;
 using Petty.Entities;
+using Petty.Interfaces;
 
 namespace Petty.Controllers;
 
 public class UsersController : BaseController
 {
-    private readonly DataContext _context;
-
-    public UsersController(DataContext context)
+    private readonly IUserRepository _userRepository;
+    public UsersController(IUserRepository userRepository)
     {
-        _context = context;
+        _userRepository = userRepository;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
-        var users = await _context.Users.ToListAsync();
-        return users;
+        return Ok(await _userRepository.GetUsersAsync());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<AppUser>> GetUser(int id)
+    public async Task<ActionResult<AppUser>> GetUserById(int id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _userRepository.GetUserByIdAsync(id);
+        return user;
+    }
+
+    [HttpGet("{username}")]
+    public async Task<ActionResult<AppUser>> GetUserByUsername(string username)
+    {
+        var user = await _userRepository.GetUserByUsernameAsync(username);
         return user;
     }
 }
