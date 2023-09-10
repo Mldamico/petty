@@ -22,9 +22,9 @@ public class UsersController : BaseController
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-        var users = await _userRepository.GetUsersAsync();
-        var usersReturning = _mapper.Map<IEnumerable<MemberDto>>(users);
-        return Ok(usersReturning);
+        var users = await _userRepository.GetMembersAsync();
+   
+        return Ok(users);
     }
 
     [HttpGet("{id}")]
@@ -37,7 +37,7 @@ public class UsersController : BaseController
     [HttpGet("{username}")]
     public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
     {
-        var user = await _userRepository.GetUserByUsernameAsync(username);
-        return _mapper.Map<MemberDto>(user);
+        return await _userRepository.GetMemberAsync(username);
+        
     }
 }
