@@ -43,6 +43,23 @@ public class AccountController : BaseController
         };
     }
 
+    [HttpPost]
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+    {
+        var user = _userManager.Users.SingleOrDefault(x => x.UserName == loginDto.Username);
+
+        if (user == null) return Unauthorized("Invalid credentials");
+
+        var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+        if (!result) return Unauthorized("Invalid credentials");
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = await _tokenService.CreateToken(user)
+        };
+    }
+
     private async Task<bool> UserExists(string username)
     {
         return await _userManager.Users.AnyAsync(user => user.UserName == username.ToLower());
