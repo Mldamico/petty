@@ -27,6 +27,14 @@ public class UsersController : BaseController
     [HttpGet]
     public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
+        var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+        userParams.CurrentUsername = currentUser.UserName;
+
+        if (string.IsNullOrEmpty(userParams.LookingFor))
+        {
+            userParams.LookingFor = currentUser.LookingFor == "cats" ? "cats" : "dogs";
+        }
+        
         var users = await _userRepository.GetMembersAsync(userParams);
         Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount,
             users.TotalPages));
