@@ -31,17 +31,17 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<AppUser>> GetUsersAsync()
     {
-        return await _context.Users.Include(x => x.Photos).ToListAsync();
+        return await _context.Users.ToListAsync();
     }
 
     public async Task<AppUser> GetUserByIdAsync(int id)
     {
-        return await _context.Users.Include(x => x.Photos).SingleOrDefaultAsync(x => x.Id == id);
+        return await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<AppUser> GetUserByUsernameAsync(string username)
     {
-        return await _context.Users.Include(x => x.Photos).SingleOrDefaultAsync(x => x.UserName == username);
+        return await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
     }
 
     public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
