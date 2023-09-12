@@ -50,7 +50,8 @@ public class PetRepository : IPetRepository
         {
             query = query.Where(pet => pet.IsPermanentCare == petParams.IsPermanentCare);           
         }
- 
+
+        query = query.Where(pet => pet.Age<= petParams.MaxAge && pet.Age>= petParams.MinAge);
         
         
 
