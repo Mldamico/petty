@@ -43,7 +43,7 @@ public class AccountController : BaseController
         };
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = _userManager.Users.SingleOrDefault(x => x.UserName == loginDto.Username);

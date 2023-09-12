@@ -41,6 +41,7 @@ public class UserRepository : IUserRepository
 
     public async Task<AppUser> GetUserByUsernameAsync(string username)
     {
+        
         return await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
     }
 

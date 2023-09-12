@@ -28,6 +28,7 @@ public class PetsController : BaseController
     [HttpGet]
     public async Task<ActionResult<PagedList<PetDto>>> GetPets([FromQuery] PetParams petParams)
     {
+        Console.WriteLine(User);
         var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
         if (string.IsNullOrEmpty(petParams.Animal) && currentUser.LookingFor != null)
         {

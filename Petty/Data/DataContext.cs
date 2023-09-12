@@ -23,6 +23,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int,
     }
 
     public DbSet<AppUser> Users { get; set; }
-
     public DbSet<Pet> Pets { get; set; }
+
+    public DbSet<Animal> Animals { get; set; }
 }

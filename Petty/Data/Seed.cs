@@ -41,4 +41,94 @@ public class Seed
         await userManager.CreateAsync(admin, "Pa$$w0rd");
         await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
     }
+
+    public static async Task InitializeAnimals(DataContext context)
+    {
+        if (context.Animals.Any()) return;
+
+        var animals = new List<Animal>
+        {
+            new Animal
+            {
+                AnimalName = "Cat"
+            },
+            new Animal
+            {
+                AnimalName = "Dog"
+            },
+            new Animal
+            {
+                AnimalName = "Parrot"
+            }
+        };
+        foreach (var animal in animals)
+        {
+            context.Animals.Add(animal);
+        }
+
+        await context.SaveChangesAsync();
+    }
+
+    public static async Task InitializePets(DataContext context)
+    {
+        if (context.Pets.Any()) return;
+        var pets = new List<Pet>
+        {
+            new Pet
+            {
+                Animal = "Cat",
+                Breed = "Siames",
+                Age = 1,
+                IsPermanentCare = false
+            },
+            new Pet
+            {
+                Animal = "Cat",
+                Breed = "Maine Coon",
+                Age = 3,
+                IsPermanentCare = false
+            },
+            new Pet
+            {
+                Animal = "Cat",
+                Breed = "Ragdoll",
+                Age = 7,
+                IsPermanentCare = false
+            },
+            new Pet
+            {
+                Animal = "Cat",
+                Breed = "Perian",
+                Age = 5,
+                IsPermanentCare = true
+            },
+            new Pet
+            {
+                Animal = "Dog",
+                Breed = "Beagle",
+                Age = 6,
+                IsPermanentCare = false
+            },
+            new Pet
+            {
+                Animal = "Dog",
+                Breed = "Labrador",
+                Age = 2,
+                IsPermanentCare = true
+            },
+            new Pet
+            {
+                Animal = "Dog",
+                Breed = "German Shepherd",
+                Age = 9,
+                IsPermanentCare = false
+            },
+        };
+        foreach (var pet in pets)
+        {
+            context.Pets.Add(pet);
+        }
+
+        await context.SaveChangesAsync();
+    }
 }
