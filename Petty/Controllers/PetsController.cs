@@ -11,12 +11,15 @@ namespace Petty.Controllers;
 
 public class PetsController : BaseController
 {
+    private readonly IUserRepository _userRepository;
     private readonly IPetRepository _petRepository;
     private readonly IMapper _mapper;
     private readonly IPhotoService _photoService;
 
-    public PetsController(IPetRepository petRepository, IMapper mapper, IPhotoService photoService)
+    public PetsController(IUserRepository userRepository, IPetRepository petRepository, IMapper mapper,
+        IPhotoService photoService)
     {
+        _userRepository = userRepository;
         _petRepository = petRepository;
         _mapper = mapper;
         _photoService = photoService;
@@ -25,6 +28,12 @@ public class PetsController : BaseController
     [HttpGet]
     public async Task<ActionResult<PagedList<PetDto>>> GetPets([FromQuery] PetParams petParams)
     {
+        var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+        if (string.IsNullOrEmpty(petParams.Animal) && currentUser.LookingFor != null)
+        {
+            petParams.Animal = currentUser.LookingFor;
+        }
+
         var pets = await _petRepository.GetPetsAsync(petParams);
         Response.AddPaginationHeader(new PaginationHeader(pets.CurrentPage, pets.PageSize, pets.TotalCount,
             pets.TotalPages));
@@ -49,7 +58,7 @@ public class PetsController : BaseController
 
         return BadRequest("Failed to update pet");
     }
-    
+
     [HttpPost("add-photo")]
     public async Task<ActionResult<PhotoDto>> AddPhoto(UploadPhotoPetDto uploadPhotoPetDto)
     {
@@ -79,9 +88,9 @@ public class PetsController : BaseController
 
         return BadRequest("Problem adding photo");
     }
-    
+
     [HttpDelete("delete-photo/{id}/{photoId}")]
-    public async Task<ActionResult> DeletePhoto(int id,int photoId)
+    public async Task<ActionResult> DeletePhoto(int id, int photoId)
     {
         var pet = await _petRepository.GetPetByIdAsync(id);
 

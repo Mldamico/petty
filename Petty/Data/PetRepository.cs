@@ -38,7 +38,11 @@ public class PetRepository : IPetRepository
     public async Task<PagedList<PetDto>> GetPetsAsync(PetParams petParams)
     {
         var query = _context.Pets.AsQueryable();
-        
+
+        query = query.Where(pet => pet.Animal == petParams.Animal);
+        query = query.Where(pet => pet.Breed == petParams.Breed);
+        query = query.Where(pet => pet.IsPermanentCare == petParams.IsPermanentCare);
+
         return await PagedList<PetDto>.CreateAsync(
             query.AsNoTracking().ProjectTo<PetDto>(_mapper.ConfigurationProvider), petParams.PageNumber,
             petParams.PageSize);
