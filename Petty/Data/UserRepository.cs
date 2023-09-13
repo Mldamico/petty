@@ -41,7 +41,6 @@ public class UserRepository : IUserRepository
 
     public async Task<AppUser> GetUserByUsernameAsync(string username)
     {
-        
         return await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
     }
 
@@ -51,6 +50,12 @@ public class UserRepository : IUserRepository
 
         query = query.Where(x => x.UserName != userParams.CurrentUsername);
         query = query.Where(x => x.LookingFor == userParams.LookingFor);
+
+        query = userParams.OrderBy switch
+        {
+            "created" => query.OrderByDescending(u => u.Created),
+            _ => query.OrderByDescending(u => u.LastActive)
+        };
 
         return await PagedList<MemberDto>.CreateAsync(
             query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider), userParams.PageNumber,

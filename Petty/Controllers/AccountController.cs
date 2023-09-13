@@ -39,7 +39,8 @@ public class AccountController : BaseController
         return new UserDto
         {
             Username = user.UserName,
-            Token = await _tokenService.CreateToken(user)
+            Token = await _tokenService.CreateToken(user),
+            LookingFor = user.LookingFor
         };
     }
 
@@ -56,7 +57,8 @@ public class AccountController : BaseController
         return new UserDto
         {
             Username = user.UserName,
-            Token = await _tokenService.CreateToken(user)
+            Token = await _tokenService.CreateToken(user),
+            LookingFor = user.LookingFor
         };
     }
 
