@@ -36,7 +36,7 @@ public class UserRepository : IUserRepository
 
     public async Task<AppUser> GetUserByIdAsync(int id)
     {
-        return await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+        return await _context.Users.FindAsync(id);
     }
 
     public async Task<AppUser> GetUserByUsernameAsync(string username)
