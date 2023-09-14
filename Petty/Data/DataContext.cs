@@ -20,10 +20,14 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int,
             .HasForeignKey(user => user.UserId).IsRequired();
         builder.Entity<AppRole>().HasMany(role => role.UserRoles).WithOne(appuser => appuser.Role)
             .HasForeignKey(role => role.RoleId).IsRequired();
+        builder.Entity<Message>().HasOne(u => u.Recipient).WithMany(m => m.MessagesReceived)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<Message>().HasOne(u => u.Sender).WithMany(m => m.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
     public DbSet<AppUser> Users { get; set; }
     public DbSet<Pet> Pets { get; set; }
-
     public DbSet<Animal> Animals { get; set; }
+    public DbSet<Message> Messages { get; set; }
 }
