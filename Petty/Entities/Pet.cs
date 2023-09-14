@@ -8,4 +8,6 @@ public class Pet
     public int Age { get; set; }
     public bool IsPermanentCare { get; set; }
     public List<Photo> Photos { get; set; } = new List<Photo>();
+
+    public AppUser User { get; set; }
 }

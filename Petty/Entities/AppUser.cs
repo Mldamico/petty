@@ -18,4 +18,5 @@ public class AppUser : IdentityUser<int>
     public List<Message> MessagesSent { get; set; }
     public List<Message> MessagesReceived { get; set; }
     
+    public List<Pet> Pets { get; set; }
 }
