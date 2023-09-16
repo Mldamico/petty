@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ public class AdminController : BaseController
         _userManager = userManager;
     }
 
+    [Authorize(Policy = "RequireAdminRole")]
+    [HttpGet("users-with-roles")]
     public async Task<ActionResult> GetUserWithRoles()
     {
         var users = await _userManager.Users.OrderBy(u => u.UserName).Select(u => new
@@ -26,4 +29,6 @@ public class AdminController : BaseController
 
         return Ok(users);
     }
+    
+    // [Authorize(Policy = "RequireAdminRole")]
 }
