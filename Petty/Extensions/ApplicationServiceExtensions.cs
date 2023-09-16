@@ -3,6 +3,7 @@ using Petty.Data;
 using Petty.Helpers;
 using Petty.Interfaces;
 using Petty.Services;
+using Petty.SignalR;
 
 namespace Petty.Extensions;
 
@@ -18,6 +19,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<LogUserActivity>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddSignalR();
+        services.AddSingleton<PresenceTracker>();
         services.AddDbContext<DataContext>(opt =>
             opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
         services.AddCors();
