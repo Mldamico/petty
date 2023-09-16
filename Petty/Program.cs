@@ -4,6 +4,7 @@ using Petty.Data;
 using Petty.Entities;
 using Petty.Extensions;
 using Petty.Middleware;
+using Petty.SignalR;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +29,7 @@ app.UseAuthorization();
 
 
 app.MapControllers();
-
+app.MapHub<PresenceHub>("hubs/presence");
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try

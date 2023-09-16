@@ -17,6 +17,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<LogUserActivity>();
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddSignalR();
         services.AddDbContext<DataContext>(opt =>
             opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
         services.AddCors();
