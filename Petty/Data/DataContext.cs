@@ -30,4 +30,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int,
     public DbSet<Pet> Pets { get; set; }
     public DbSet<Animal> Animals { get; set; }
     public DbSet<Message> Messages { get; set; }
+
+    public DbSet<Group> Groups { get; set; }
+    public DbSet<Connection> Connections { get; set; }
 }
